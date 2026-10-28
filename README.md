@@ -83,5 +83,3 @@ Distribuído sob a **GNU GPL v3** (veja o arquivo `LICENSE`), porque usa a bibli
 - [FluxGarage RoboEyes](https://github.com/FluxGarage/RoboEyes), de Dennis Hoelscher
 - Adafruit GFX e Adafruit SSD1306
 - MPU6050_tockn
-
-Feito por [SEU NOME].
