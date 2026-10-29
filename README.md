@@ -170,5 +170,3 @@ O projeto informa uso da licença **GNU GPL v3**. Consulte o arquivo `LICENSE` d
 - Adafruit GFX e Adafruit SSD1306.
 
 - MPU6050_tockn.
-
-Feito por **[SEU NOME]** — substitua pelo nome ou identificação dos autores do projeto.
