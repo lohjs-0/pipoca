@@ -1,4 +1,4 @@
-# RoboZinho
+# Pip0ca
 
 Um robozinho de mesa com olhos animados que reage ao movimento. Feito com ESP32, tela OLED e sensor MPU6050.
 
