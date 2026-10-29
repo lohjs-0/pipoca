@@ -72,7 +72,7 @@ A pasta `TesteMPU` tem um sketch que mostra no Serial se o MPU6050 foi encontrad
 
 ## Ajustes
 
-No bloco `AJUSTES` do `RoboZinho.ino` dá para mudar a sensibilidade (`RUIDO`, `GANHO`, `LIMITE_TONTO`, `LIMITE_BRAVO`), os tempos de tédio e sono e a direção do olhar.
+No bloco `AJUSTES` do `pipoca.ino` dá para mudar a sensibilidade (`RUIDO`, `GANHO`, `LIMITE_TONTO`, `LIMITE_BRAVO`), os tempos de tédio e sono e a direção do olhar.
 
 ## Licença
 
