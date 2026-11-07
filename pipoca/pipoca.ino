@@ -113,6 +113,7 @@ unsigned long proxConfuso = 0;
 unsigned long proxAleatorio = 0;
 unsigned long ultimoMovimento = 0;
 unsigned long ultimaLeitura = 0;
+bool olhosCompactos = false;
 
 void setup() {
   Serial.begin(115200);

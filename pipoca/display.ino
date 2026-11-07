@@ -78,6 +78,7 @@ void desenharFrame() {
   if (millis() - ultimoFrame < 15) return;
   ultimoFrame = millis();
 
+  restaurarOlhosClima();
   display.enviar = false;     // a biblioteca desenha, mas ainda não envia
   roboEyes.drawEyes();
   display.enviar = true;
@@ -105,41 +106,53 @@ void desenharClima() {
   if (agora - ultimoFrameClima < 500) return;
   ultimoFrameClima = agora;
 
-  display.clearDisplay();
+  if (!olhosCompactos) {
+    roboEyes.setWidth(22, 22);
+    roboEyes.setHeight(20, 20);
+    olhosCompactos = true;
+  }
+  display.enviar = false;
+  roboEyes.drawEyes();
+  display.enviar = true;
+
+  display.fillRect(0, 45, SCREEN_WIDTH, 19, SSD1306_BLACK);
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(1);
-  display.setCursor(37, 3);
-  display.print(F("AMBIENTE"));
-
-  display.setTextSize(1);
-  display.setCursor(8, 20);
-  display.print(F("Temperatura"));
-  display.setCursor(8, 31);
+  display.setCursor(4, 47);
+  display.print(F("T:"));
   if (isfinite(temperaturaAtual)) {
     display.print(temperaturaAtual, 1);
-    display.print(F(" C"));
+    display.print(F("C"));
   } else {
-    display.print(F("--.- C"));
+    display.print(F("--.-C"));
   }
 
-  display.setCursor(75, 20);
-  display.print(F("Umidade"));
-  display.setCursor(75, 31);
+  display.setCursor(67, 47);
+  display.print(F("U:"));
   if (isfinite(umidadeAtual)) {
     display.print(umidadeAtual, 0);
     display.print('%');
   } else {
-    display.print(F("-- %"));
+    display.print(F("--%"));
   }
 
-  display.setCursor(25, 54);
+  display.setCursor(13, 56);
   display.print(F("Mexa para acordar"));
   display.display();
+}
+
+void restaurarOlhosClima() {
+  if (!olhosCompactos) return;
+  roboEyes.setWidth(36, 36);
+  roboEyes.setHeight(36, 36);
+  olhosCompactos = false;
 }
 
 void desenharSono() {
   if (millis() - ultimoZzz < 300) return;
   ultimoZzz = millis();
+
+  restaurarOlhosClima();
 
   int fase = (millis() / 600) % 4;  // 0 a 3 letras
 
