@@ -89,6 +89,54 @@ void desenharFrame() {
 // Desenha o robô dormindo: olhos fechados e "Zzz" animado.
 unsigned long ultimoZzz = 0;
 
+// Atualiza o DHT22 no intervalo recomendado pelo sensor e exibe as leituras.
+unsigned long ultimaAtualizacaoClima = 0;
+unsigned long ultimoFrameClima = 0;
+float temperaturaAtual = NAN;
+float umidadeAtual = NAN;
+
+void desenharClima() {
+  unsigned long agora = millis();
+  if (agora - ultimaAtualizacaoClima >= 2500) {
+    ultimaAtualizacaoClima = agora;
+    temperaturaAtual = dht.readTemperature();
+    umidadeAtual = dht.readHumidity();
+  }
+  if (agora - ultimoFrameClima < 500) return;
+  ultimoFrameClima = agora;
+
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setCursor(37, 3);
+  display.print(F("AMBIENTE"));
+
+  display.setTextSize(1);
+  display.setCursor(8, 20);
+  display.print(F("Temperatura"));
+  display.setCursor(8, 31);
+  if (isfinite(temperaturaAtual)) {
+    display.print(temperaturaAtual, 1);
+    display.print(F(" C"));
+  } else {
+    display.print(F("--.- C"));
+  }
+
+  display.setCursor(75, 20);
+  display.print(F("Umidade"));
+  display.setCursor(75, 31);
+  if (isfinite(umidadeAtual)) {
+    display.print(umidadeAtual, 0);
+    display.print('%');
+  } else {
+    display.print(F("-- %"));
+  }
+
+  display.setCursor(25, 54);
+  display.print(F("Mexa para acordar"));
+  display.display();
+}
+
 void desenharSono() {
   if (millis() - ultimoZzz < 300) return;
   ultimoZzz = millis();

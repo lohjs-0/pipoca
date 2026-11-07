@@ -34,6 +34,7 @@
 #include <Adafruit_SSD1306.h>
 #include <MPU6050_tockn.h>
 #include <FluxGarage_RoboEyes.h>
+#include <DHT.h>
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -45,6 +46,8 @@
 #define MPU_SDA_PIN 26
 #define MPU_SCL_PIN 27
 #define BUZZER_PIN 23
+#define DHT_PIN 4
+#define DHT_TIPO DHT22
 
 // ---------- Estados (precisa ficar antes das funções) ----------
 enum Estado {
@@ -71,6 +74,7 @@ OLEDCustom display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 TwoWire I2C_MPU = TwoWire(1);
 MPU6050 mpu6050(I2C_MPU);
 RoboEyes<OLEDCustom> roboEyes(display);
+DHT dht(DHT_PIN, DHT_TIPO);
 
 // ================== AJUSTES ==================
 const unsigned long INTERVALO_LEITURA = 50;   // ms entre leituras do MPU
@@ -153,6 +157,8 @@ void setup() {
   }
   Serial.println(F("MPU6050 encontrado e inicializado."));
 
+  dht.begin();
+
   roboEyes.begin(SCREEN_WIDTH, SCREEN_HEIGHT, 100);
   roboEyes.setCuriosity(ON);
   ultimaLeitura = millis();
@@ -162,7 +168,10 @@ void setup() {
 }
 
 void loop() {
-  if (estado == ST_SONO) desenharSono();
+  bool parado = millis() - ultimoMovimento >= TEMPO_ENTEDIADO;
+  if (parado && (estado == ST_NORMAL || estado == ST_ENTEDIADO || estado == ST_SONO)) {
+    desenharClima();
+  } else if (estado == ST_SONO) desenharSono();
   else desenharFrame();
   atualizarSom();
 

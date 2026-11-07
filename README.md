@@ -21,9 +21,14 @@ O sketch usa as leituras do acelerômetro do MPU6050 para classificar movimentos
 | Embalo suave | Fica feliz, com corações subindo |
 | Parado por cerca de 15 s | Fica entediado |
 | Parado por cerca de 30 s | Dorme com “Zzz” e acorda ao ser movimentado |
+| Parado por cerca de 15 s | Exibe temperatura e umidade do DHT22; volta às expressões ao detectar movimento |
 | De vez em quando | Expressões aleatórias |
 
 As melodias são reproduzidas pelo buzzer. Os tempos e limiares podem ser ajustados no bloco `AJUSTES` de `pipoca.ino`.
+
+### Temperatura e umidade no OLED
+
+Depois de 15 segundos sem movimento, o display mostra as leituras do DHT22 e continua atualizando-as enquanto o robô permanecer parado. Ao detectar movimento, volta às expressões. O sensor está configurado no GPIO 4 (`DHT_PIN` em `pipoca.ino`); altere essa definição se a montagem usar outro pino. Se a leitura falhar, o display mostra traços. Sensores DHT22 sem módulo podem precisar de um resistor pull-up de 4,7 kΩ a 10 kΩ entre DATA e 3V3.
 
 ## Estrutura do projeto
 
@@ -52,6 +57,7 @@ A configuração do código é compatível com um **ESP32 DevKit**, mas o modelo
 | MPU6050 (GY-521) | SDA | 26 |
 | MPU6050 (GY-521) | SCL | 27 |
 | Buzzer passivo | sinal / positivo | 23 |
+| DHT22 | DATA | 4 (configurável em `DHT_PIN`) |
 | Módulos | VCC | 3V3 |
 | Módulos | GND | GND comum |
 
@@ -73,7 +79,7 @@ O sketch gera o sinal no GPIO 23. Confirme que o buzzer é **passivo** e que sua
 
 - Core Arduino para ESP32 (`esp32:esp32`), versão 3.x conforme indicado no sketch.
 
-- Bibliotecas: Adafruit GFX Library, Adafruit SSD1306, MPU6050_tockn e FluxGarage RoboEyes.
+- Bibliotecas: Adafruit GFX Library, Adafruit SSD1306, MPU6050_tockn, FluxGarage RoboEyes, DHT sensor library e Adafruit Unified Sensor.
 
 As versões exatas das bibliotecas ainda não foram registradas como testadas. Para tornar a instalação reproduzível, anote as versões que funcionarem na sua placa e ambiente.
 
@@ -90,6 +96,8 @@ arduino-cli core install esp32:esp32
 arduino-cli lib install "Adafruit GFX Library"
 arduino-cli lib install "Adafruit SSD1306"
 arduino-cli lib install "MPU6050_tockn"
+arduino-cli lib install "DHT sensor library"
+arduino-cli lib install "Adafruit Unified Sensor"
 ```
 
 Compile o sketch principal a partir do diretório que contém a pasta `pipoca`:
