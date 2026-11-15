@@ -8,6 +8,7 @@ void limparExtra() {
 
 void mudarEstado(Estado novo) {
   estado = novo;
+  olhosCompactos = false;
   posAtual = -1;
   Serial.print(F("Estado: "));
   Serial.println(NOMES[novo]);
